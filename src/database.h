@@ -1,18 +1,46 @@
+#ifndef DATABASE_H
+#define DATABASE_H
 
-// Arquivo original com declaração de função adicional para salvar encantamento
-#include "enchantment.h"
-
+// Definition for Database
 class Database {
 public:
-    static Database& getInstance();
-    bool saveItemEnchantment(int itemId, Enchantment* enchantment); // Função para salvar encantamento
+    // Singleton pattern to get the instance
+    static Database* getInstance() {
+        static Database instance;
+        return &instance;
+    }
+
+    // Stub method for storeQuery
+    DBResult_ptr storeQuery(const std::string& query) {
+        // Implementation to store a query in the database
+        return nullptr; // Placeholder
+    }
+
+    // Stub method for escapeString
+    std::string escapeString(const std::string& str) const {
+        // Implementation to escape strings for database use
+        return str; // Placeholder
+    }
 };
 
 // Definition for DBResult
 class DBResult {
 public:
-    // Add necessary methods and properties here
+    // Stub method for getNumber
+    template<typename T>
+    T getNumber(const std::string& column) const {
+        // Implementation to get a numeric value
+        return T(); // Placeholder
+    }
+
+    // Stub method for getString
+    std::string getString(const std::string& column) const {
+        // Implementation to get a string value
+        return std::string(); // Placeholder
+    }
 };
 
 // Definition for DBResult_ptr
 using DBResult_ptr = std::shared_ptr<DBResult>;
+
+#endif // DATABASE_H
