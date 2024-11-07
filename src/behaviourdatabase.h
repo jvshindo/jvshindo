@@ -1,31 +1,37 @@
-#ifndef BEHAVIOURDATABASE_H
-#define BEHAVIOURDATABASE_H
 
-#include "npc.h"  // Including npc.h directly to ensure full access to Npc class
+#ifndef BEHAVIOUR_DATABASE_H
+#define BEHAVIOUR_DATABASE_H
+
 #include <string>
-#include <memory>
-#include <mutex>  // Include for std::recursive_mutex
 
-class ScriptReader;  // Forward declaration
-class NpcBehaviour;  // Forward declaration
-class NpcBehaviourNode;  // Forward declaration
-enum BehaviourSituation_t;  // Forward declaration
+class NPC; // Forward declaration of NPC
+class NpcBehaviour; // Forward declaration of NpcBehaviour
+enum BehaviourSituation_t; // Forward declaration of the enum
 
 class BehaviourDatabase {
 public:
-    BehaviourDatabase(Npc* _npc);  // Added constructor declaration
-    ~BehaviourDatabase();  // Destructor declaration
+    BehaviourDatabase(NPC* _npc); // Changed Npc to NPC
+    ~BehaviourDatabase(); // Destructor declaration
 
-    void react(int situation, class Player* player, const std::string& message);
-    void checkAction(const void* action, Player* player, const std::string& message);
-    void attendCustomer(uint32_t playerId);
-    void idle();
+    bool loadDatabase(ScriptReader& script); // Example function
+    bool loadBehaviour(ScriptReader& script); // Example function
+    bool loadConditions(ScriptReader& script, NpcBehaviour* behaviour); // Example function
+    bool loadActions(ScriptReader& script, NpcBehaviour* behaviour); // Example function
+    NpcBehaviourNode* readValue(ScriptReader& script); // Example function
+    NpcBehaviourNode* readFactor(ScriptReader& script, NpcBehaviourNode* nextNode); // Example function
+    void react(BehaviourSituation_t situation, Player* player, const std::string& message); // Example function
+    bool checkCondition(const NpcBehaviourCondition* condition, Player* player, const std::string& message); // Example function
+    void checkAction(const NpcBehaviourAction* action, Player* player, const std::string& message); // Example function
+    int32_t evaluate(NpcBehaviourNode* node, Player* player, const std::string& message); // Example function
+    int32_t checkOperation(Player* player, NpcBehaviourNode* node, const std::string& message); // Example function
+    int32_t searchDigit(const std::string& message); // Example function
+    bool searchWord(const std::string& pattern, const std::string& message); // Example function
+    std::string parseResponse(Player* player, const std::string& message); // Example function
+    void reset(); // Example function
 
 private:
-    Npc* npc;  // Pointer to Npc
-    std::recursive_mutex mutex;  // Mutex for thread safety
-
-    // Add member variables and other methods here as needed
+    NPC* npc; // Pointer to NPC
+    // Additional private members and methods can be declared here
 };
 
-#endif // BEHAVIOURDATABASE_H
+#endif // BEHAVIOUR_DATABASE_H
