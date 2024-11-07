@@ -1,3 +1,7 @@
+#include <memory>
+class DBResult;
+using DBResult_ptr = std::shared_ptr<DBResult>;
+
 /*
  * YurOTS, a free game server emulator 
  * Official Repository on Github <https://github.com/rodolfoaugusto/yurOTS-server>
@@ -27,7 +31,6 @@
 #endif
 #endif
 
-#include "database.h"
 #include "enums.h"
 #include "position.h"
 #include <boost/lexical_cast.hpp>
