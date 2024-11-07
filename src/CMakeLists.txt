@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)  # Atualizado para a versão mínima
 
 set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
@@ -29,7 +29,7 @@ option(USE_LUAJIT "Use LuaJIT" ${LUAJIT_FOUND})
 if(USE_LUAJIT)
     find_package(LuaJIT REQUIRED)
     if(APPLE)
-        set(CMAKE_EXE_LINKER_FLAGS "-pagezero_size 10000 -image_base 100000000")
+      set(CMAKE_EXE_LINKER_FLAGS "-pagezero_size 10000 -image_base 100000000")
     endif()
 else()
     find_package(Lua)
@@ -37,10 +37,7 @@ endif()
 
 find_package(Boost 1.53.0 COMPONENTS system filesystem REQUIRED)
 
-# Include the src CMakeLists.txt to define source files
 include(src/CMakeLists.txt)
-
-# Create the executable
 add_executable(yurOTS ${yurOTS_SRC})
 
 include_directories(${MYSQL_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ${PUGIXML_INCLUDE_DIR})
