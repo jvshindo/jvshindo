@@ -1,1 +1,6 @@
+name: Build yurOTS Server
+
+on:
+  push:
+    branches:
 
