@@ -3,7 +3,7 @@ name: Build yurOTS Server
 on:
   push:
     branches:
-      - master  # ou `main` se sua branch principal for `main`
+      - master  # ou substitua por `main` se sua branch principal for `main`
   pull_request:
 
 jobs:
@@ -26,3 +26,10 @@ jobs:
           mkdir build
           cd build
           cmake ..
+          make
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: yurOTS
+          path: build/yurOTS  # Certifique-se de que o executável é criado com esse nome e nesse caminho
