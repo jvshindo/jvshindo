@@ -1,37 +1,42 @@
-
 #ifndef BEHAVIOUR_DATABASE_H
 #define BEHAVIOUR_DATABASE_H
 
 #include <string>
+#include <vector>
 
-class NPC; // Forward declaration of NPC
-class NpcBehaviour; // Forward declaration of NpcBehaviour
-enum BehaviourSituation_t; // Forward declaration of the enum
+// Inclua outros cabeçalhos que definem Player, NpcBehaviour, ScriptReader e outros tipos necessários.
+#include "Player.h"
+#include "NpcBehaviour.h"
+#include "ScriptReader.h"
+
+enum BehaviourSituation_t; // Forward declaration
 
 class BehaviourDatabase {
 public:
-    BehaviourDatabase(NPC* _npc); // Changed Npc to NPC
-    ~BehaviourDatabase(); // Destructor declaration
+    BehaviourDatabase(NPC* _npc); // Construtor correto
+    ~BehaviourDatabase(); // Destrutor
 
-    bool loadDatabase(ScriptReader& script); // Example function
-    bool loadBehaviour(ScriptReader& script); // Example function
-    bool loadConditions(ScriptReader& script, NpcBehaviour* behaviour); // Example function
-    bool loadActions(ScriptReader& script, NpcBehaviour* behaviour); // Example function
-    NpcBehaviourNode* readValue(ScriptReader& script); // Example function
-    NpcBehaviourNode* readFactor(ScriptReader& script, NpcBehaviourNode* nextNode); // Example function
-    void react(BehaviourSituation_t situation, Player* player, const std::string& message); // Example function
-    bool checkCondition(const NpcBehaviourCondition* condition, Player* player, const std::string& message); // Example function
-    void checkAction(const NpcBehaviourAction* action, Player* player, const std::string& message); // Example function
-    int32_t evaluate(NpcBehaviourNode* node, Player* player, const std::string& message); // Example function
-    int32_t checkOperation(Player* player, NpcBehaviourNode* node, const std::string& message); // Example function
-    int32_t searchDigit(const std::string& message); // Example function
-    bool searchWord(const std::string& pattern, const std::string& message); // Example function
-    std::string parseResponse(Player* player, const std::string& message); // Example function
-    void reset(); // Example function
+    bool loadDatabase(ScriptReader& script);
+    bool loadBehaviour(ScriptReader& script);
+    bool loadConditions(ScriptReader& script, NpcBehaviour* behaviour);
+    bool loadActions(ScriptReader& script, NpcBehaviour* behaviour);
+    NpcBehaviourNode* readValue(ScriptReader& script);
+    NpcBehaviourNode* readFactor(ScriptReader& script, NpcBehaviourNode* nextNode);
+    void react(BehaviourSituation_t situation, Player* player, const std::string& message);
+    bool checkCondition(const NpcBehaviourCondition* condition, Player* player, const std::string& message);
+    void checkAction(const NpcBehaviourAction* action, Player* player, const std::string& message);
+    int32_t evaluate(NpcBehaviourNode* node, Player* player, const std::string& message);
+    int32_t checkOperation(Player* player, NpcBehaviourNode* node, const std::string& message);
+    std::string parseResponse(Player* player, const std::string& message);
+    void attendCustomer(uint32_t playerId);
+    void queueCustomer(uint32_t playerId, const std::string& message);
+    void idle();
+    void reset();
 
 private:
-    NPC* npc; // Pointer to NPC
-    // Additional private members and methods can be declared here
+    NPC* npc;
+    std::vector<NpcBehaviour*> behaviourEntries;
+    // Adicione outras variáveis conforme necessário
 };
 
 #endif // BEHAVIOUR_DATABASE_H
