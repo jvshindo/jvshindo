@@ -3,7 +3,7 @@ name: Build yurOTS Server
 on:
   push:
     branches:
-      - master  # ou substitua por `main` se sua branch principal for `main`
+      - master  # ou `main` se sua branch principal for `main`
   pull_request:
 
 jobs:
@@ -21,15 +21,20 @@ jobs:
                                   libboost-system-dev libboost-iostreams-dev libpugixml-dev \
                                   libcrypto++-dev libboost-filesystem-dev
 
-      - name: Configure and Build
+      - name: Configure CMake
         run: |
           mkdir build
           cd build
-          cmake ..
-          make
+          cmake ..  # Configura o CMake no diretório build
+
+      - name: Build Project
+        run: |
+          cd build
+          make  # Compila o projeto usando Make
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: yurOTS
-          path: build/yurOTS  # Certifique-se de que o executável é criado com esse nome e nesse caminho
+          path: build/yurOTS  # Verifique se o executável está sendo criado nesse caminho
+
