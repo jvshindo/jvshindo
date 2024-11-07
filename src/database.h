@@ -1,6 +1,26 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
+// Definition for DBResult
+class DBResult {
+public:
+    // Stub method for getNumber
+    template<typename T>
+    T getNumber(const std::string& column) const {
+        // Implementation to get a numeric value
+        return T(); // Placeholder
+    }
+
+    // Stub method for getString
+    std::string getString(const std::string& column) const {
+        // Implementation to get a string value
+        return std::string(); // Placeholder
+    }
+};
+
+// Definition for DBResult_ptr
+using DBResult_ptr = std::shared_ptr<DBResult>;
+
 // Definition for Database
 class Database {
 public:
@@ -22,25 +42,5 @@ public:
         return str; // Placeholder
     }
 };
-
-// Definition for DBResult
-class DBResult {
-public:
-    // Stub method for getNumber
-    template<typename T>
-    T getNumber(const std::string& column) const {
-        // Implementation to get a numeric value
-        return T(); // Placeholder
-    }
-
-    // Stub method for getString
-    std::string getString(const std::string& column) const {
-        // Implementation to get a string value
-        return std::string(); // Placeholder
-    }
-};
-
-// Definition for DBResult_ptr
-using DBResult_ptr = std::shared_ptr<DBResult>;
 
 #endif // DATABASE_H
