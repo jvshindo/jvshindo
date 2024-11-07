@@ -38,3 +38,4 @@ jobs:
           name: yurOTS
           path: build/yurOTS  # Verifique se o executável está sendo criado nesse caminho
 
+
