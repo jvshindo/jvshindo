@@ -30,6 +30,10 @@ find_package(Threads)
 
 find_package(Boost 1.53.0 COMPONENTS system filesystem REQUIRED)
 
+# Define the executable before linking libraries
+include(src/CMakeLists.txt)
+add_executable(yurOTS ${yurOTS_SRC})
+
 # Include necessary directories and link libraries once
 include_directories(${MYSQL_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ${PUGIXML_INCLUDE_DIR})
 target_link_libraries(yurOTS ${MYSQL_CLIENT_LIBS} ${LUA_LIBRARIES} ${Boost_LIBRARIES} ${Boost_FILESYSTEM_LIBRARIES} ${PUGIXML_LIBRARIES} ${CRYPTOPP_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
@@ -37,9 +41,6 @@ target_link_libraries(yurOTS ${MYSQL_CLIENT_LIBS} ${LUA_LIBRARIES} ${Boost_LIBRA
 # Debugging messages for MySQL setup confirmation
 message(STATUS "MySQL Include dir: ${MYSQL_INCLUDE_DIR}")
 message(STATUS "MySQL client libraries: ${MYSQL_CLIENT_LIBS}")
-
-include(src/CMakeLists.txt)
-add_executable(yurOTS ${yurOTS_SRC})
 
 set_target_properties(yurOTS PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "src/otpch.h")
 set_target_properties(yurOTS PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
