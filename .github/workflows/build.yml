@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake ..  # Configura o CMake no diretório build
+          cmake -Wno-dev -DCMAKE_POLICY_DEFAULT_CMP0167=NEW ..  # Configura o CMake e suprime advertências
 
       - name: Build Project
         run: |
