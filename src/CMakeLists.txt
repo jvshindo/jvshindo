@@ -21,11 +21,23 @@ endif()
 
 include(FindCXX11)
 
-# Find packages
-find_package(Crypto++ REQUIRED)
-find_package(PugiXML REQUIRED)
-find_package(Lua REQUIRED)  # Using only Lua, no LuaJIT
-find_package(MySQL REQUIRED)
+# Find packages only once
+if(NOT TARGET Crypto++)
+    find_package(Crypto++ REQUIRED)
+endif()
+
+if(NOT TARGET PugiXML)
+    find_package(PugiXML REQUIRED)
+endif()
+
+if(NOT TARGET Lua)
+    find_package(Lua REQUIRED)
+endif()
+
+if(NOT TARGET MySQL)
+    find_package(MySQL REQUIRED)
+endif()
+
 find_package(Threads)
 find_package(Boost 1.53.0 COMPONENTS system filesystem REQUIRED)
 
@@ -33,9 +45,11 @@ find_package(Boost 1.53.0 COMPONENTS system filesystem REQUIRED)
 include(src/CMakeLists.txt)
 add_executable(yurOTS ${yurOTS_SRC})
 
-# Include directories and link libraries
-include_directories(${MYSQL_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ${PUGIXML_INCLUDE_DIR})
-target_link_libraries(yurOTS ${MYSQL_CLIENT_LIBS} ${LUA_LIBRARIES} ${Boost_LIBRARIES} ${Boost_FILESYSTEM_LIBRARIES} ${PUGIXML_LIBRARIES} ${CRYPTOPP_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
+# Include directories and link libraries only once
+if(NOT TARGET yurOTS)
+    include_directories(${MYSQL_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ${PUGIXML_INCLUDE_DIR})
+    target_link_libraries(yurOTS ${MYSQL_CLIENT_LIBS} ${LUA_LIBRARIES} ${Boost_LIBRARIES} ${Boost_FILESYSTEM_LIBRARIES} ${PUGIXML_LIBRARIES} ${CRYPTOPP_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
+endif()
 
 # Set properties for cotire
 set_target_properties(yurOTS PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "src/otpch.h")
