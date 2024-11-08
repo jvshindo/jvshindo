@@ -21,27 +21,23 @@ endif()
 
 include(FindCXX11)
 
-# Find packages.
+# Find packages
 find_package(Crypto++ REQUIRED)
 find_package(PugiXML REQUIRED)
-find_package(Lua REQUIRED)  # Use only Lua, no LuaJIT
+find_package(Lua REQUIRED)  # Using only Lua, no LuaJIT
 find_package(MySQL REQUIRED)
 find_package(Threads)
-
 find_package(Boost 1.53.0 COMPONENTS system filesystem REQUIRED)
 
-# Define the executable before linking libraries
+# Define executable target before linking libraries
 include(src/CMakeLists.txt)
 add_executable(yurOTS ${yurOTS_SRC})
 
-# Include necessary directories and link libraries once
+# Include directories and link libraries
 include_directories(${MYSQL_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ${PUGIXML_INCLUDE_DIR})
 target_link_libraries(yurOTS ${MYSQL_CLIENT_LIBS} ${LUA_LIBRARIES} ${Boost_LIBRARIES} ${Boost_FILESYSTEM_LIBRARIES} ${PUGIXML_LIBRARIES} ${CRYPTOPP_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
 
-# Debugging messages for MySQL setup confirmation
-message(STATUS "MySQL Include dir: ${MYSQL_INCLUDE_DIR}")
-message(STATUS "MySQL client libraries: ${MYSQL_CLIENT_LIBS}")
-
+# Set properties for cotire
 set_target_properties(yurOTS PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "src/otpch.h")
 set_target_properties(yurOTS PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 
