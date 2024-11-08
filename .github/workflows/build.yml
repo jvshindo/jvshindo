@@ -1,29 +1,41 @@
-name: Build yurOTS
+name: Build yurOTS Server
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master  # ou `main` se sua branch principal for `main`
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
 
-      - name: Install dependencies
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcrypto++-dev libpugixml-dev liblua5.2-dev libmysqlclient-dev libboost-all-dev cmake make g++
+          sudo apt-get install -y build-essential cmake liblua5.2-dev libgmp3-dev libmysqlclient-dev \
+                                  libboost-system-dev libboost-iostreams-dev libpugixml-dev \
+                                  libcrypto++-dev libboost-filesystem-dev
 
       - name: Configure CMake
         run: |
           mkdir build
           cd build
-          cmake ..
+          cmake -Wno-dev -DCMAKE_POLICY_DEFAULT_CMP0167=NEW ..  # Configura o CMake e suprime advertências
 
-      - name: Build project
+      - name: Build Project
         run: |
           cd build
-          make
+          make  # Compila o projeto usando Make
 
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: yurOTS
+          path: build/yurOTS  # Verifique se o executável está sendo criado nesse caminho
 
 
